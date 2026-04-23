@@ -1,695 +1,1270 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escola Dominical Online</title>
-    <!-- Google Analytics 4 (GA4) - Substitua G-EXAMPLE123456 pelo seu ID real -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXAMPLE123456"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-EXAMPLE123456');
-    </script>
-    <style>
-        /* Variáveis de cores: azul-marinho e dourado */
-        :root {
-            --navy: #001F3F;
-            --gold: #D4AF37;
-            --light: #F8F9FA;
-            --white: #FFFFFF;
-            --gray: #6C757D;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, var(--navy), #003366);
-            color: var(--white);
-            line-height: 1.6;
-        }
-        header {
-            background: var(--navy);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--gold);
-        }
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        nav li {
-            margin-left: 2rem;
-        }
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        nav a:hover {
-            background: var(--gold);
-            color: var(--navy);
-        }
-        .notification-bell {
-            position: relative;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--gold);
-            color: var(--navy);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        section {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-        }
-        .slides-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-        .slide-card {
-            background: var(--white);
-            color: var(--navy);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-        }
-        .slide-card:hover {
-            transform: translateY(-5px);
-        }
-        .slide-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .btn {
-            background: var(--gold);
-            color: var(--navy);
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn:hover {
-            background: #B8932E;
-        }
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-        .btn-secondary {
-            background: var(--gray);
-            color: white;
-        }
-        #viewer {
-            text-align: center;
-        }
-        .slide-content {
-            background: var(--white);
-            color: var(--navy);
-            padding: 3rem;
-            margin: 2rem 0;
-            border-radius: 10px;
-            font-size: 2rem;
-            line-height: 1.4;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .slide-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .slide-content .slide-text {
-            margin-bottom: 1.5rem;
-        }
-        .viewer-controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        #admin-form {
-            display: grid;
-            gap: 1rem;
-        }
-        #content-items > div {
-            background: var(--light);
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-        #content-items img.preview {
-            max-width: 200px;
-            height: auto;
-        }
-        footer {
-            background: var(--navy);
-            padding: 2rem 1rem;
-            text-align: center;
-        }
-        .social-section {
-            margin-top: 2rem;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gold);
-            color: var(--navy);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 1.2rem;
-        }
-        .hidden {
-            display: none;
-        }
-        /* Responsividade */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            nav li {
-                margin: 0;
-            }
-            .slide-content {
-                font-size: 1.5rem;
-                padding: 2rem 1rem;
-            }
-            .viewer-controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            .slides-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 480px) {
-            .slide-content {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
-    <!-- Facebook SDK Oficial -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v20.0"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escola Dominical Online – Lições Bíblicas EBD</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', {
+    page_title: document.title,
+    page_location: window.location.href,
+    send_page_view: true
+  });
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy: #0d1f3c;
+    --navy-mid: #162a4f;
+    --navy-light: #1e3a6e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e9c8;
+    --cream: #faf7f0;
+    --cream-dark: #f0ead8;
+    --text-dark: #0d1f3c;
+    --text-mid: #3a4a6b;
+    --text-light: #7a8aaa;
+    --white: #ffffff;
+    --facebook: #1877F2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(13, 31, 60, 0.97);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 64px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px; text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 500;
+    color: var(--white); line-height: 1.2;
+  }
+  .nav-logo-text span {
+    display: block; font-size: 10px;
+    font-family: 'Crimson Pro', serif; font-weight: 300;
+    color: var(--gold-light); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 300;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    letter-spacing: 0.05em; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold) !important; padding: 6px 18px; border-radius: 4px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 20% 60%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(30,58,110,0.6) 0%, transparent 50%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 55%, #0a1828 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 100px 2rem 5rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(201,168,76,0.04) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(201,168,76,0.04) 60px);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Crimson Pro', serif; font-size: 13px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 700;
+    color: var(--white); line-height: 1.1; margin-bottom: 0.4rem;
+    max-width: 780px; opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto; opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+  }
+  .hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 300;
+    color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.75;
+    margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+  }
+
+  /* ── SLOGAN ── */
+  .hero-slogan-wrap {
+    opacity: 0; animation: fadeUp 0.7s 0.75s forwards;
+    margin-bottom: 2.2rem;
+    display: flex; align-items: center; gap: 14px; justify-content: center;
+  }
+  .hero-slogan-line { width: 32px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .hero-slogan {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(0.95rem, 2vw, 1.18rem);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .hero-buttons {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    opacity: 0; animation: fadeUp 0.7s 0.85s forwards;
+    margin-bottom: 1.5rem;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy); border: none; padding: 14px 32px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 600;
+    letter-spacing: 0.04em; cursor: pointer; text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s; display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.25); padding: 14px 32px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 300;
+    letter-spacing: 0.04em; cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s, color 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  /* Facebook hero button */
+  .btn-facebook-hero {
+    background: var(--facebook); color: var(--white);
+    border: none; padding: 14px 28px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 600;
+    letter-spacing: 0.03em; cursor: pointer; text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s; display: inline-flex;
+    align-items: center; gap: 8px;
+  }
+  .btn-facebook-hero:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .hero-social {
+    opacity: 0; animation: fadeUp 0.7s 0.95s forwards;
+    display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-verse {
+    position: absolute; bottom: 2.5rem;
+    font-size: 12px; font-style: italic;
+    color: rgba(255,255,255,0.3); letter-spacing: 0.08em;
+    opacity: 0; animation: fadeUp 0.7s 1.1s forwards;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
+  }
+  .stat-item { padding: 1.6rem 3rem; text-align: center; border-right: 1px solid rgba(201,168,76,0.12); }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+    color: var(--gold-light); display: block;
+  }
+  .stat-label {
+    font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-top: 2px;
+  }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding: 5rem 1.5rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); font-weight: 300; margin-bottom: 0.75rem; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 700;
+    color: var(--navy); line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--navy-light); }
+  .section-desc {
+    font-size: 1.1rem; font-weight: 300; color: var(--text-mid);
+    line-height: 1.85; max-width: 560px;
+  }
+  .gold-line {
+    width: 48px; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 1.2rem 0 2rem;
+  }
+
+  /* ── SLIDES SECTION ── */
+  .slides-section { background: var(--cream); }
+  .quarter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .tab-btn {
+    font-family: 'Crimson Pro', serif; font-size: 14px; font-weight: 400;
+    padding: 7px 20px; border: 1px solid var(--cream-dark);
+    background: var(--white); color: var(--text-mid); border-radius: 3px;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.03em;
+  }
+  .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .tab-btn.active { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
+
+  .slides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .slide-card {
+    background: var(--white); border: 1px solid var(--cream-dark);
+    border-radius: 6px; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .slide-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(13,31,60,0.12);
+  }
+  .slide-thumb {
+    height: 130px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; position: relative; overflow: hidden; cursor: pointer;
+  }
+  .slide-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(201,168,76,0.04) 9px);
+  }
+  .slide-thumb-num {
+    font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700;
+    color: rgba(201,168,76,0.35); line-height: 1; position: relative;
+  }
+  .slide-thumb-label {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); font-weight: 300; position: relative;
+  }
+  .slide-thumb-view {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(201,168,76,0.18); border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 3px; padding: 3px 8px;
+    font-size: 10px; color: var(--gold-light); letter-spacing: 0.08em;
+    cursor: pointer; font-family: 'Crimson Pro', serif;
+    transition: background 0.2s;
+    text-transform: uppercase;
+  }
+  .slide-thumb:hover .slide-thumb-view { background: rgba(201,168,76,0.32); }
+
+  .slide-body { padding: 1rem; }
+  .slide-lession {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); font-weight: 300; margin-bottom: 4px;
+  }
+  .slide-title {
+    font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 500;
+    color: var(--navy); line-height: 1.35; margin-bottom: 0.5rem;
+  }
+  .slide-ref { font-size: 12px; font-style: italic; color: var(--text-light); }
+
+  .slide-actions {
+    display: flex; gap: 6px; margin-top: 0.75rem; flex-wrap: wrap;
+  }
+  .slide-btn-view {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--navy-light);
+    text-decoration: none; border: 1px solid var(--cream-dark);
+    padding: 4px 10px; border-radius: 3px; cursor: pointer;
+    background: var(--cream); letter-spacing: 0.04em;
+    transition: all 0.15s; font-family: 'Crimson Pro', serif;
+  }
+  .slide-btn-view:hover { border-color: var(--navy-light); background: var(--white); }
+  .slide-btn-download {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--white);
+    background: var(--navy); border: 1px solid var(--navy);
+    padding: 4px 10px; border-radius: 3px; cursor: pointer;
+    letter-spacing: 0.04em; transition: all 0.15s;
+    text-decoration: none; font-family: 'Crimson Pro', serif;
+  }
+  .slide-btn-download:hover { background: var(--navy-light); }
+  .slide-btn-share {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--white);
+    background: var(--facebook); border: 1px solid var(--facebook);
+    padding: 4px 10px; border-radius: 3px; cursor: pointer;
+    letter-spacing: 0.04em; transition: opacity 0.15s;
+    text-decoration: none; font-family: 'Crimson Pro', serif;
+  }
+  .slide-btn-share:hover { opacity: 0.85; }
+
+  .slides-note {
+    margin-top: 2rem; padding: 1.25rem 1.5rem;
+    background: var(--gold-pale); border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0; font-size: 14px; color: var(--text-mid);
+    font-style: italic; line-height: 1.7;
+  }
+
+  /* ── LIGHTBOX (Tela Cheia) ── */
+  .lightbox-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(7,15,30,0.97); backdrop-filter: blur(8px);
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-header {
+    width: 100%; max-width: 1000px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .lightbox-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--gold-light); font-weight: 500;
+  }
+  .lightbox-actions { display: flex; gap: 10px; align-items: center; }
+  .lightbox-btn {
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light); padding: 7px 18px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s; letter-spacing: 0.04em;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .lightbox-btn:hover { background: rgba(201,168,76,0.22); }
+  .lightbox-btn-fb {
+    background: var(--facebook); border: 1px solid var(--facebook);
+    color: var(--white);
+  }
+  .lightbox-btn-fb:hover { opacity: 0.9; background: var(--facebook); }
+  .lightbox-close {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6); width: 36px; height: 36px;
+    border-radius: 4px; cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+  .lightbox-content {
+    width: 100%; max-width: 1000px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px; min-height: 520px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 3rem;
+  }
+  .lightbox-content::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(201,168,76,0.03) 15px);
+    pointer-events: none;
+  }
+  .lightbox-slide-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 7rem; font-weight: 700;
+    color: rgba(201,168,76,0.08); line-height: 1;
+    position: absolute; top: 1rem; right: 2rem;
+    pointer-events: none;
+  }
+  .lightbox-slide-ref-tag {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); font-weight: 300; margin-bottom: 1.2rem; position: relative;
+  }
+  .lightbox-slide-main {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 700;
+    color: var(--white); line-height: 1.2; text-align: center;
+    max-width: 680px; position: relative; margin-bottom: 1rem;
+  }
+  .lightbox-slide-verse {
+    font-size: 1.05rem; font-style: italic; font-weight: 300;
+    color: rgba(255,255,255,0.55); position: relative; text-align: center;
+  }
+  .lightbox-nav {
+    display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center;
+  }
+  .lightbox-nav-btn {
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light); padding: 8px 22px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 14px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .lightbox-nav-btn:hover { background: rgba(201,168,76,0.22); }
+  .lightbox-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .lightbox-counter {
+    font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4);
+    display: flex; align-items: center; padding: 0 6px;
+  }
+
+  /* ── SOBRE ── */
+  .sobre-section { background: var(--navy); }
+  .sobre-section .section-title { color: var(--white); }
+  .sobre-section .section-desc { color: rgba(255,255,255,0.65); max-width: 600px; }
+  .sobre-section .gold-line { background: linear-gradient(90deg, var(--gold), transparent); }
+  .sobre-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: start; margin-top: 2.5rem;
+  }
+  .sobre-feature { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2rem; }
+  .sobre-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .sobre-feature-title {
+    font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 500;
+    color: var(--gold-light); margin-bottom: 4px;
+  }
+  .sobre-feature-text { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.6); line-height: 1.7; }
+  .sobre-quote {
+    background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px; padding: 2rem;
+  }
+  .sobre-quote-text {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic;
+    color: var(--gold-pale); line-height: 1.65; margin-bottom: 1rem;
+  }
+  .sobre-quote-ref { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+
+  /* ── CONTATO ── */
+  .contato-section { background: var(--cream); }
+  .contato-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    margin-top: 2.5rem; align-items: start;
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-mid); margin-bottom: 6px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; background: var(--white); border: 1px solid var(--cream-dark);
+    border-radius: 4px; padding: 12px 14px;
+    font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 300;
+    color: var(--text-dark); outline: none; transition: border-color 0.2s; appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { min-height: 130px; resize: vertical; }
+
+  .contato-info-item { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+  .contato-info-icon {
+    width: 40px; height: 40px; flex-shrink: 0; background: var(--navy);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .contato-info-title {
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-light); font-weight: 600; margin-bottom: 3px;
+  }
+  .contato-info-text { font-size: 16px; font-weight: 300; color: var(--text-dark); line-height: 1.5; }
+  .contato-info-text a { color: var(--navy-light); text-decoration: none; }
+  .contato-info-text a:hover { color: var(--gold); }
+
+  /* ── FACEBOOK SECTION ── */
+  .facebook-section {
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 2.5rem 1.5rem;
+  }
+  .facebook-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .facebook-text-block {}
+  .facebook-label {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); font-weight: 300; margin-bottom: 0.5rem;
+  }
+  .facebook-title {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem;
+    font-weight: 500; color: var(--white); margin-bottom: 0.4rem;
+  }
+  .facebook-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.55); }
+  .facebook-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+  .fb-btn-primary {
+    background: var(--facebook); color: var(--white);
+    border: none; padding: 11px 24px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: opacity 0.2s;
+  }
+  .fb-btn-primary:hover { opacity: 0.88; }
+  .fb-btn-secondary {
+    background: transparent; color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.2); padding: 11px 24px; border-radius: 4px;
+    font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 300;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .fb-btn-secondary:hover { border-color: var(--gold); color: var(--gold-light); }
+  .fb-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); }
+
+  /* ── NOTIFICAÇÕES ── */
+  .notif-bar {
+    background: linear-gradient(90deg, rgba(201,168,76,0.12), rgba(201,168,76,0.06));
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 1rem 1.5rem;
+  }
+  .notif-bar-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+  }
+  .notif-bar-text {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .notif-bell { font-size: 16px; }
+  .notif-bar-msg {
+    font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.7);
+    font-family: 'Crimson Pro', serif;
+  }
+  .notif-bar-msg strong { color: var(--gold-light); font-weight: 600; }
+  .notif-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy); border: none; padding: 7px 20px; border-radius: 3px;
+    font-family: 'Crimson Pro', serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.2s; white-space: nowrap;
+  }
+  .notif-btn:hover { opacity: 0.88; }
+  .notif-btn-dismiss {
+    background: transparent; border: none; color: rgba(255,255,255,0.3);
+    font-size: 14px; cursor: pointer; font-family: 'Crimson Pro', serif; padding: 4px 8px;
+  }
+  .notif-btn-dismiss:hover { color: rgba(255,255,255,0.6); }
+  #notif-bar { display: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #070f1e;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem 2rem 0;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-tagline {
+    font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.35);
+    letter-spacing: 0.08em; margin-bottom: 1.5rem;
+  }
+  .footer-links {
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    list-style: none; margin-bottom: 2rem;
+  }
+  .footer-links a {
+    font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4);
+    text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; padding-bottom: 1.5rem; }
+
+  /* ── VISITOR COUNTER ── */
+  .visitor-strip {
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 1.5rem 2rem;
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 0;
+  }
+  .visitor-item {
+    padding: 0.5rem 2.5rem;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .visitor-item:last-child { border-right: none; }
+  .visitor-num {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.04em;
+  }
+  .visitor-label {
+    font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .visitor-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80; display: inline-block;
+    margin-right: 5px; animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  /* Share floating button */
+  .share-float {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--facebook); color: var(--white);
+    border: none; width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; cursor: pointer; z-index: 90;
+    box-shadow: 0 4px 20px rgba(24,119,242,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .share-float:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(24,119,242,0.6); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    .sobre-grid, .contato-grid { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.12); }
+    .stat-item:last-child { border-bottom: none; }
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .facebook-inner { flex-direction: column; }
+    .visitor-item { padding: 0.5rem 1.2rem; }
+    .lightbox-slide-num { font-size: 4rem; }
+    .hero-slogan { font-size: 0.9rem; }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <!-- Logo e Navegação -->
-        <div class="logo">Escola Dominical Online</div>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="showSection('slides-list')">Slides</a></li>
-                <li><a href="#" onclick="showSection('admin')" id="admin-link">Admin</a></li>
-            </ul>
-        </nav>
-        <!-- Badge de Notificações -->
-        <div class="notification-bell" id="notification-bell" title="Notificações" onclick="toggleNotifications()">🔔
-            <span class="notification-badge" id="notif-badge">ON</span>
+
+<!-- FLOATING SHARE BUTTON -->
+<a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener"
+   class="share-float" title="Nossa página no Facebook" aria-label="Facebook">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+  </svg>
+</a>
+
+<!-- NOTIFICATION BAR -->
+<div id="notif-bar" class="notif-bar" style="background: var(--navy-mid);">
+  <div class="notif-bar-inner">
+    <div class="notif-bar-text">
+      <span class="notif-bell">🔔</span>
+      <span class="notif-bar-msg"><strong>Novos slides disponíveis!</strong> Receba avisos quando publicarmos novas lições.</span>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="notif-btn" onclick="requestNotifPermission()">Ativar notificações</button>
+      <button class="notif-btn-dismiss" onclick="dismissNotifBar()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">✝</div>
+    <div class="nav-logo-text">
+      Escola Dominical Online
+      <span>Lições Bíblicas EBD</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#slides">Slides</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener" style="color:rgba(100,160,255,0.8);">Facebook</a></li>
+    <li><a href="#contato" class="nav-cta">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Recurso gratuito para professores da EBD</p>
+  <h1 class="hero-title">
+    Slides prontos para sua<br><em>Escola Bíblica Dominical</em>
+  </h1>
+  <div class="hero-divider"></div>
+  <p class="hero-sub">
+    Lições semanais elaboradas com cuidado, baseadas na Revista Lições Bíblicas da Editora CPAD. Simples de usar, fáceis de apresentar.
+  </p>
+
+  <!-- SLOGAN -->
+  <div class="hero-slogan-wrap">
+    <span class="hero-slogan-line"></span>
+    <p class="hero-slogan">A Palavra de Deus ao alcance de cada professor,<br>com excelência e gratidão a Cristo.</p>
+    <span class="hero-slogan-line"></span>
+  </div>
+
+  <div class="hero-buttons">
+    <a href="#slides" class="btn-primary">Ver os slides</a>
+    <a href="#sobre" class="btn-outline">Saiba mais</a>
+  </div>
+
+  <!-- SOCIAL HERO -->
+  <div class="hero-social">
+    <a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener" class="btn-facebook-hero">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+      Curtir nossa página
+    </a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://escoladominical.online" target="_blank" rel="noopener" class="btn-outline" style="font-size:15px; padding: 12px 24px;">
+      ↗ Compartilhar
+    </a>
+  </div>
+
+  <p class="hero-verse">"Ensina a criança no caminho em que deve andar..." — Provérbios 22:6</p>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-num">+10M</span>
+    <span class="stat-label">Acessos no site anterior</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">100%</span>
+    <span class="stat-label">Gratuito</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">EBD</span>
+    <span class="stat-label">Baseado na CPAD</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">✝</span>
+    <span class="stat-label">Com propósito</span>
+  </div>
+</div>
+
+<!-- SLIDES -->
+<section class="slides-section" id="slides">
+  <div class="section-inner">
+    <span class="section-label">Material disponível</span>
+    <h2 class="section-title">Slides das <em>Lições Bíblicas</em></h2>
+    <div class="gold-line"></div>
+    <p class="section-desc">Selecione o trimestre desejado. Clique em <strong>Ver</strong> para abrir em tela cheia, ou <strong>Baixar PDF</strong> para salvar no seu dispositivo.</p>
+
+    <div class="quarter-tabs" style="margin-top: 2rem;">
+      <button class="tab-btn active" onclick="setTab(this,'q1')">1º Trimestre 2026</button>
+      <button class="tab-btn" onclick="setTab(this,'q2')">2º Trimestre 2026</button>
+      <button class="tab-btn" onclick="setTab(this,'q3')">3º Trimestre 2026</button>
+      <button class="tab-btn" onclick="setTab(this,'q4')">4º Trimestre 2026</button>
+    </div>
+
+    <div class="slides-grid" id="slides-grid">
+      <!-- cards rendered by JS -->
+    </div>
+
+    <div class="slides-note">
+      <strong>Atenção:</strong> Os slides são elaborados exclusivamente como auxílio visual para professores que já adotam a Revista Lições Bíblicas da Editora CPAD. O conteúdo segue o roteiro trimestral oficial.
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-header">
+    <div class="lightbox-title" id="lb-title">Lição 01</div>
+    <div class="lightbox-actions">
+      <a href="#" id="lb-download" class="lightbox-btn" download>
+        ↓ Baixar PDF
+      </a>
+      <a href="#" id="lb-share-fb" class="lightbox-btn lightbox-btn-fb" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Compartilhar
+      </a>
+      <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+    </div>
+  </div>
+  <div class="lightbox-content">
+    <div class="lightbox-slide-num" id="lb-bg-num">01</div>
+    <p class="lightbox-slide-ref-tag" id="lb-ref">Gênesis 1:1</p>
+    <h2 class="lightbox-slide-main" id="lb-main">Título da Lição</h2>
+    <p class="lightbox-slide-verse" id="lb-verse">Referência bíblica</p>
+  </div>
+  <div class="lightbox-nav">
+    <button class="lightbox-nav-btn" id="lb-prev" onclick="lbNav(-1)">← Anterior</button>
+    <span class="lightbox-counter" id="lb-counter">1 / 8</span>
+    <button class="lightbox-nav-btn" id="lb-next" onclick="lbNav(1)">Próxima →</button>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section class="sobre-section" id="sobre">
+  <div class="section-inner">
+    <span class="section-label" style="color: var(--gold);">Sobre o projeto</span>
+    <h2 class="section-title">Um ministério de <em style="color:var(--gold-light);">serviço</em> à Igreja</h2>
+    <div class="gold-line"></div>
+    <p class="section-desc">Este site é uma iniciativa pessoal e voluntária, criada para facilitar o trabalho dos professores da Escola Bíblica Dominical em todo o Brasil.</p>
+
+    <div class="sobre-grid">
+      <div>
+        <div class="sobre-feature">
+          <div class="sobre-icon">📖</div>
+          <div>
+            <div class="sobre-feature-title">Baseado na CPAD</div>
+            <div class="sobre-feature-text">Os slides seguem fielmente o conteúdo da Revista Lições Bíblicas, o material mais adotado nas Assembleias de Deus do Brasil.</div>
+          </div>
         </div>
-    </header>
+        <div class="sobre-feature">
+          <div class="sobre-icon">🎨</div>
+          <div>
+            <div class="sobre-feature-title">Visual claro e didático</div>
+            <div class="sobre-feature-text">Apresentações pensadas para facilitar a compreensão — textos bíblicos destacados, pontos principais organizados, prontos para projetar.</div>
+          </div>
+        </div>
+        <div class="sobre-feature">
+          <div class="sobre-icon">🙏</div>
+          <div>
+            <div class="sobre-feature-title">Totalmente gratuito</div>
+            <div class="sobre-feature-text">Nenhum cadastro, nenhuma assinatura. Um serviço ao corpo de Cristo, com gratidão a Deus pelos mais de 10 milhões de acessos no site anterior.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sobre-quote">
+          <p class="sobre-quote-text">"E as coisas que ouviste de mim por muitas testemunhas, estas confia a homens fiéis, que sejam idôneos para também ensinarem a outros."</p>
+          <p class="sobre-quote-ref">— 2 Timóteo 2:2</p>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid rgba(201,168,76,0.2); border-radius: 6px;">
+          <p style="font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.8;">
+            O projeto nasceu da percepção de que muitos professores da EBD têm boa vontade, mas nem sempre têm tempo ou recursos para preparar uma apresentação visual de qualidade. Este site existe para suprir essa necessidade de forma gratuita e acessível.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main>
-        <!-- Visualizador de Slide -->
-        <section id="viewer" class="hidden">
-            <h1 id="viewer-title"></h1>
-            <div id="slide-content" class="slide-content"></div>
-            <div class="viewer-controls">
-                <button class="btn" onclick="prevSlide()">Anterior</button>
-                <button class="btn" onclick="downloadCurrentPDF()">Baixar PDF</button>
-                <button class="btn" onclick="shareCurrentSlide()">Compartilhar</button>
-                <button class="btn" onclick="nextSlide()">Próximo</button>
-                <div class="fb-share-button" data-href="" data-layout="button" data-size="small"></div>
+<!-- FACEBOOK PAGE SECTION -->
+<div class="facebook-section">
+  <div class="facebook-inner">
+    <div class="facebook-text-block">
+      <div class="facebook-label">Redes sociais</div>
+      <div class="facebook-title">Siga nossa página no Facebook</div>
+      <div class="facebook-sub">Novidades, avisos de novos slides e conteúdo bíblico semanalmente.</div>
+    </div>
+    <div class="facebook-actions">
+      <a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener" class="fb-btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Curtir Página
+      </a>
+      <div class="fb-divider"></div>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://escoladominical.online" target="_blank" rel="noopener" class="fb-btn-secondary">
+        ↗ Compartilhar site
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTATO -->
+<section class="contato-section" id="contato">
+  <div class="section-inner">
+    <span class="section-label">Fale conosco</span>
+    <h2 class="section-title">Entre em <em>contato</em></h2>
+    <div class="gold-line"></div>
+    <p class="section-desc">Sugestões, pedidos de lições específicas, ou apenas para compartilhar como o material tem abençoado sua igreja — fale conosco!</p>
+
+    <div class="contato-grid">
+      <div>
+        <div class="form-group">
+          <label>Seu nome</label>
+          <input type="text" placeholder="Pastor João, Prof. Maria…">
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Assunto</label>
+          <select>
+            <option>Sugestão de melhoria</option>
+            <option>Pedido de lição específica</option>
+            <option>Erro encontrado</option>
+            <option>Testemunho / bênção</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea placeholder="Escreva sua mensagem aqui…"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; font-size:15px;">Enviar mensagem</button>
+      </div>
+      <div>
+        <div class="contato-info-item">
+          <div class="contato-info-icon">✉️</div>
+          <div>
+            <div class="contato-info-title">E-mail</div>
+            <div class="contato-info-text">
+              <a href="mailto:ismaelpo@hotmail.com">ismaelpo@hotmail.com</a>
             </div>
-            <button class="btn btn-secondary" onclick="backToList()">Voltar à Lista</button>
-        </section>
-
-        <!-- Lista de Slides -->
-        <section id="slides-list">
-            <h1>Slides Disponíveis</h1>
-            <p>Selecione um slide para visualizar.</p>
-            <div id="slides-grid" class="slides-grid"></div>
-        </section>
-
-        <!-- Painel Admin (senha: admin123) -->
-        <section id="admin" class="hidden">
-            <h1>Painel Administrativo</h1>
-            <button class="btn" onclick="requestNotificationPermission()">Ativar Notificações</button>
-            <form id="admin-form">
-                <input type="hidden" id="edit-id">
-                <label>Título do Slide:</label>
-                <input type="text" id="slide-title" required>
-                
-                <label>Conteúdo:</label>
-                <div id="content-items"></div>
-                <button type="button" class="btn" onclick="addTextItem()">Adicionar Texto</button>
-                <button type="button" class="btn" onclick="addImageItem()">Adicionar Imagem</button>
-                
-                <button type="submit" class="btn">Salvar Slide</button>
-                <button type="button" class="btn btn-secondary" onclick="clearForm()">Novo Slide</button>
-            </form>
-            <h2>Slides Existentes</h2>
-            <div id="admin-slides"></div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Escola Dominical Online. Todos os direitos reservados.</p>
-        <!-- Seção de Redes Sociais -->
-        <section class="social-section">
-            <h3>Siga-nos no Facebook</h3>
-            <!-- Botão Curtir/Seguir Página Facebook -->
-            <div class="fb-like" data-href="https://www.facebook.com/profile.php?id=100089994035603" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="false"></div>
-            <!-- Botão Compartilhar Site -->
-            <div class="fb-share-button" data-href="https://www.facebook.com/profile.php?id=100089994035603" data-layout="button" data-size="large"></div>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=100089994035603" class="social-icon" target="_blank">FB</a>
+          </div>
+        </div>
+        <div class="contato-info-item">
+          <div class="contato-info-icon">📅</div>
+          <div>
+            <div class="contato-info-title">Publicação</div>
+            <div class="contato-info-text">Novos slides toda semana, antes do domingo</div>
+          </div>
+        </div>
+        <div class="contato-info-item">
+          <div class="contato-info-icon">📍</div>
+          <div>
+            <div class="contato-info-title">Localização</div>
+            <div class="contato-info-text">Palmas – TO, Brasil</div>
+          </div>
+        </div>
+        <div class="contato-info-item">
+          <div class="contato-info-icon" style="background: var(--facebook);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          </div>
+          <div>
+            <div class="contato-info-title">Facebook</div>
+            <div class="contato-info-text">
+              <a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener">Nossa Fanpage</a>
             </div>
-        </section>
-    </footer>
+          </div>
+        </div>
+        <div style="margin-top: 1rem; padding: 1.5rem; background: var(--gold-pale); border-radius: 6px; border-left: 3px solid var(--gold);">
+          <p style="font-size: 14px; color: var(--text-mid); line-height: 1.8; font-style: italic;">
+            "Respondendo o rei, disse a Daniel: Verdadeiramente vosso Deus é o Deus dos deuses e o Senhor dos reis." — Daniel 2:47
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- html2pdf.js via CDN para download PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Escola Dominical <span>Online</span></div>
+  <p class="footer-tagline">Auxiliando professores da EBD em todo o Brasil · Gratuito · Com amor a Cristo</p>
+  <ul class="footer-links">
+    <li><a href="#slides">Slides</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="https://www.facebook.com/profile.php?id=100089994035603" target="_blank" rel="noopener">Facebook</a></li>
+  </ul>
 
-    <script>
-        // =======================================
-        // VARIÁVEIS GLOBAIS E INICIALIZAÇÃO
-        // =======================================
-        let slides = JSON.parse(localStorage.getItem('slides')) || [];
-        let currentSlideIndex = 0;
-        let currentSlideId = null;
-        let swRegistration = null;
-        const ADMIN_PASS = 'admin123'; // Senha do admin - altere se necessário
-        const FB_PAGE_URL = 'https://www.facebook.com/profile.php?id=100089994035603';
-        const NOTIF_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMWYzRiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1zaXplPSIzNSIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNENDFGMzciIGZvbnQtZmFtaWx5PSJBcmlhbCI+RUQ8L3RleHQ+PC9zdmc+';
+  <!-- VISITOR COUNTER -->
+  <div class="visitor-strip">
+    <div class="visitor-item">
+      <span class="visitor-num" id="vc-visitors">—</span>
+      <span class="visitor-label">Visitantes</span>
+    </div>
+    <div class="visitor-item">
+      <span class="visitor-num" id="vc-views">—</span>
+      <span class="visitor-label">Visualizações</span>
+    </div>
+    <div class="visitor-item">
+      <span class="visitor-num" id="vc-online">
+        <span class="visitor-dot"></span><span id="vc-online-num">1</span>
+      </span>
+      <span class="visitor-label">Online agora</span>
+    </div>
+    <div class="visitor-item">
+      <span class="visitor-num" id="vc-slides">32</span>
+      <span class="visitor-label">Slides disponíveis</span>
+    </div>
+  </div>
 
-        // Função para rastrear eventos no Google Analytics
-        function trackEvent(eventName, params = {}) {
-            gtag('event', eventName, params);
-        }
+  <p class="footer-copy">© 2026 Escola Dominical Online · Material de apoio, não afiliado oficialmente à Editora CPAD</p>
+</footer>
 
-        // Inicialização
-        window.addEventListener('load', () => {
-            trackEvent('page_view', {page_title: document.title});
-            loadSlides();
-            initNotifications();
-            initServiceWorker();
-            FB.XFBML.parse();
-            checkAdminAccess();
-            updateNotificationBadge();
-        });
+<!-- ===== SCRIPTS ===== -->
+<script>
+// ────────────────────────────────────────────────
+// DADOS DOS SLIDES — edite aqui para atualizar
+// ────────────────────────────────────────────────
+const slidesData = {
+  q1: [
+    { num: 1, titulo: "A Criação e o Criador", ref: "Gênesis 1:1–2:3", file: null },
+    { num: 2, titulo: "O Homem, Imagem de Deus", ref: "Gênesis 1:26-31; 2:7", file: null },
+    { num: 3, titulo: "A Queda e a Promessa", ref: "Gênesis 3:1-24", file: null },
+    { num: 4, titulo: "Caim e Abel", ref: "Gênesis 4:1-16", file: null },
+    { num: 5, titulo: "Noé e o Dilúvio", ref: "Gênesis 6:1 – 8:22", file: null },
+    { num: 6, titulo: "A Aliança com Abraão", ref: "Gênesis 12:1-9; 15:1-21", file: null },
+    { num: 7, titulo: "Abraão e Isaque", ref: "Gênesis 22:1-19", file: null },
+    { num: 8, titulo: "A Escada de Jacó", ref: "Gênesis 28:10-22", file: null },
+  ],
+  q2: [
+    { num: 1, titulo: "Moisés e a Sarça Ardente", ref: "Êxodo 3:1-17", file: null },
+    { num: 2, titulo: "As Pragas do Egito", ref: "Êxodo 7–12", file: null },
+    { num: 3, titulo: "A Páscoa do Senhor", ref: "Êxodo 12:1-28", file: null },
+    { num: 4, titulo: "A Travessia do Mar Vermelho", ref: "Êxodo 14:1-31", file: null },
+    { num: 5, titulo: "Os Dez Mandamentos", ref: "Êxodo 20:1-17", file: null },
+    { num: 6, titulo: "O Bezerro de Ouro", ref: "Êxodo 32:1-35", file: null },
+    { num: 7, titulo: "O Tabernáculo", ref: "Êxodo 35–40", file: null },
+    { num: 8, titulo: "No Deserto com Deus", ref: "Números 11–14", file: null },
+  ],
+  q3: [
+    { num: 1, titulo: "Josué e a Conquista de Canaã", ref: "Josué 1; 6", file: null },
+    { num: 2, titulo: "Débora: Juíza e Profetisa", ref: "Juízes 4–5", file: null },
+    { num: 3, titulo: "Gideão e os 300", ref: "Juízes 6–7", file: null },
+    { num: 4, titulo: "Sansão: Força e Fraqueza", ref: "Juízes 13–16", file: null },
+    { num: 5, titulo: "Rute: Lealdade e Redenção", ref: "Rute 1–4", file: null },
+    { num: 6, titulo: "Samuel: O Menino Chamado", ref: "1 Samuel 1–3", file: null },
+    { num: 7, titulo: "Saul: O Primeiro Rei", ref: "1 Samuel 9–15", file: null },
+    { num: 8, titulo: "Davi e Golias", ref: "1 Samuel 17", file: null },
+  ],
+  q4: [
+    { num: 1, titulo: "O Reinado de Davi", ref: "2 Samuel 5–7", file: null },
+    { num: 2, titulo: "Salomão e o Templo", ref: "1 Reis 6–8", file: null },
+    { num: 3, titulo: "Elias e o Monte Carmelo", ref: "1 Reis 18", file: null },
+    { num: 4, titulo: "Elias no Deserto", ref: "1 Reis 19", file: null },
+    { num: 5, titulo: "Eliseu e os Milagres", ref: "2 Reis 4–5", file: null },
+    { num: 6, titulo: "Daniel na Babilônia", ref: "Daniel 1–2", file: null },
+    { num: 7, titulo: "A Fornalha de Fogo", ref: "Daniel 3", file: null },
+    { num: 8, titulo: "Daniel na Cova dos Leões", ref: "Daniel 6", file: null },
+  ]
+};
 
-        // =======================================
-        // GERENCIAMENTO DE SEÇÕES
-        // =======================================
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(sectionId).classList.remove('hidden');
-            if (sectionId === 'slides-list') loadSlides();
-        }
+// ────────────────────────────────────────────────
+// TABS & CARDS
+// ────────────────────────────────────────────────
+let currentTab = 'q1';
 
-        // Verificar acesso admin
-        function checkAdminAccess() {
-            const adminLink = document.getElementById('admin-link');
-            adminLink.onclick = () => {
-                const pass = prompt('Digite a senha do admin:');
-                if (pass === ADMIN_PASS) {
-                    showSection('admin');
-                    loadAdminSlides();
-                } else {
-                    alert('Senha incorreta!');
-                }
-            };
-        }
+function setTab(btn, key) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentTab = key;
+  renderCards();
+}
 
-        // =======================================
-        // SISTEMA DE SLIDES
-        // =======================================
-        function saveSlides() {
-            localStorage.setItem('slides', JSON.stringify(slides));
-        }
+function renderCards() {
+  const grid = document.getElementById('slides-grid');
+  grid.innerHTML = '';
+  slidesData[currentTab].forEach((s, idx) => {
+    const card = document.createElement('div');
+    card.className = 'slide-card';
+    const numStr = s.num < 10 ? '0' + s.num : s.num;
+    const hasFile = s.file !== null;
 
-        function loadSlides() {
-            const grid = document.getElementById('slides-grid');
-            grid.innerHTML = '';
-            slides.sort((a, b) => new Date(b.date) - new Date(a.date));
-            slides.forEach(slide => {
-                const card = document.createElement('div');
-                card.className = 'slide-card';
-                let preview = '';
-                const firstImage = slide.content.find(item => item.type === 'image');
-                if (firstImage) {
-                    preview = `<img src="${firstImage.value}" alt="Preview">`;
-                } else {
-                    const firstText = slide.content.find(item => item.type === 'text') || {value: slide.title};
-                    preview = `<p>${firstText.value.substring(0, 100)}...</p>`;
-                }
-                card.innerHTML = `
-                    ${preview}
-                    <h3>${slide.title}</h3>
-                    <p>${slide.views} visualizações - ${slide.date}</p>
-                    <button class="btn" onclick="viewSlide(${slide.id})">Visualizar</button>
-                    <button class="btn" onclick="shareSlide(${slide.id})">Compartilhar</button>
-                `;
-                grid.appendChild(card);
-            });
-        }
+    card.innerHTML = `
+      <div class="slide-thumb" onclick="openLightbox('${currentTab}', ${idx})">
+        <span class="slide-thumb-num">${numStr}</span>
+        <span class="slide-thumb-label">Lição</span>
+        <span class="slide-thumb-view">⤢ Tela cheia</span>
+      </div>
+      <div class="slide-body">
+        <div class="slide-lession">Lição ${s.num}</div>
+        <div class="slide-title">${s.titulo}</div>
+        <div class="slide-ref">${s.ref}</div>
+        <div class="slide-actions">
+          <button class="slide-btn-view" onclick="openLightbox('${currentTab}', ${idx})">⤢ Ver</button>
+          ${hasFile
+            ? `<a href="${s.file}" class="slide-btn-download" download>↓ PDF</a>`
+            : `<button class="slide-btn-download" style="opacity:0.45; cursor:default;" disabled title="Em breve">↓ PDF</button>`
+          }
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent('Lição '+s.num+': '+s.titulo+' — '+s.ref)}" target="_blank" rel="noopener" class="slide-btn-share">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.266h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
 
-        // Visualizar slide
-        function viewSlide(id) {
-            currentSlideId = id;
-            const slide = slides.find(s => s.id === id);
-            if (!slide) return;
-            slide.views++;
-            saveSlides();
-            trackEvent('slide_view', {slide_id: id, slide_title: slide.title});
-            document.getElementById('viewer-title').textContent = slide.title;
-            renderSlideContent(slide);
-            currentSlideIndex = slides.indexOf(slide);
-            showSection('viewer');
-            // Atualizar FB share
-            setTimeout(() => {
-                const shareBtn = document.querySelector('.viewer-controls .fb-share-button');
-                shareBtn.setAttribute('data-href', window.location.href.split('#')[0] + '#slide' + id);
-                FB.XFBML.parse(shareBtn.parentNode);
-            }, 500);
-        }
+renderCards();
 
-        function renderSlideContent(slide) {
-            const container = document.getElementById('slide-content');
-            container.innerHTML = '';
-            slide.content.forEach(item => {
-                if (item.type === 'text') {
-                    const div = document.createElement('div');
-                    div.className = 'slide-text';
-                    div.textContent = item.value;
-                    container.appendChild(div);
-                } else if (item.type === 'image') {
-                    const img = document.createElement('img');
-                    img.src = item.value;
-                    container.appendChild(img);
-                }
-            });
-        }
+// ────────────────────────────────────────────────
+// LIGHTBOX
+// ────────────────────────────────────────────────
+let lbTabKey = 'q1';
+let lbIdx = 0;
 
-        function nextSlide() {
-            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-            viewSlide(slides[currentSlideIndex].id);
-        }
+function openLightbox(tabKey, idx) {
+  lbTabKey = tabKey;
+  lbIdx = idx;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  // GA tracking
+  if (typeof gtag !== 'undefined') {
+    const s = slidesData[lbTabKey][lbIdx];
+    gtag('event', 'slide_view', { slide_title: s.titulo, slide_num: s.num });
+  }
+}
 
-        function prevSlide() {
-            currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-            viewSlide(slides[currentSlideIndex].id);
-        }
+function updateLightbox() {
+  const slides = slidesData[lbTabKey];
+  const s = slides[lbIdx];
+  const numStr = s.num < 10 ? '0' + s.num : s.num;
 
-        function backToList() {
-            showSection('slides-list');
-        }
+  document.getElementById('lb-title').textContent = 'Lição ' + numStr + ' — ' + s.titulo;
+  document.getElementById('lb-bg-num').textContent = numStr;
+  document.getElementById('lb-ref').textContent = s.ref;
+  document.getElementById('lb-main').textContent = s.titulo;
+  document.getElementById('lb-verse').textContent = s.ref;
+  document.getElementById('lb-counter').textContent = (lbIdx + 1) + ' / ' + slides.length;
+  document.getElementById('lb-prev').disabled = lbIdx === 0;
+  document.getElementById('lb-next').disabled = lbIdx === slides.length - 1;
 
-        // Download PDF
-        function downloadCurrentPDF() {
-            const content = document.getElementById('slide-content');
-            const title = document.getElementById('viewer-title').textContent;
-            html2pdf().from(content).set({filename: title + '.pdf', margin: 1}).save();
-            trackEvent('pdf_download', {slide_id: currentSlideId, slide_title: title});
-        }
+  // Download link
+  const dlBtn = document.getElementById('lb-download');
+  if (s.file) {
+    dlBtn.href = s.file;
+    dlBtn.style.opacity = '1';
+    dlBtn.style.pointerEvents = 'auto';
+  } else {
+    dlBtn.href = '#';
+    dlBtn.style.opacity = '0.4';
+    dlBtn.style.pointerEvents = 'none';
+    dlBtn.title = 'PDF em breve';
+  }
 
-        // Compartilhar slide
-        function shareSlide(id) {
-            const url = window.location.href.split('#')[0] + '#slide' + id;
-            shareToFacebook(url);
-        }
+  // Facebook share
+  const fbBtn = document.getElementById('lb-share-fb');
+  fbBtn.href = 'https://www.facebook.com/sharer/sharer.php?u=' +
+    encodeURIComponent(window.location.href) +
+    '&quote=' + encodeURIComponent('Lição ' + s.num + ': ' + s.titulo + ' — ' + s.ref);
+}
 
-        function shareCurrentSlide() {
-            shareSlide(currentSlideId);
-        }
+function lbNav(dir) {
+  const slides = slidesData[lbTabKey];
+  const next = lbIdx + dir;
+  if (next >= 0 && next < slides.length) {
+    lbIdx = next;
+    updateLightbox();
+  }
+}
 
-        function shareToFacebook(url) {
-            const u = encodeURIComponent(url);
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + u, 'fbshare', 'width=600,height=400');
-            trackEvent('social_share', {network: 'facebook', slide_id: currentSlideId});
-        }
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-        // =======================================
-        // PAINEL ADMIN
-        // =======================================
-        document.getElementById('admin-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('edit-id').value) || Date.now();
-            const title = document.getElementById('slide-title').value;
-            const contentItems = document.querySelectorAll('#content-items > div');
-            const content = [];
-            for (let item of contentItems) {
-                const type = item.dataset.type;
-                const value = type === 'image' ? item.querySelector('img').src : item.querySelector('textarea').value;
-                if (value) content.push({type, value});
-            }
-            const slide = {id, title, content, views: 0, date: new Date().toLocaleDateString('pt-BR') };
-            const index = slides.findIndex(s => s.id === id);
-            if (index > -1) {
-                slides[index] = slide;
-            } else {
-                slides.push(slide);
-            }
-            saveSlides();
-            loadSlides();
-            loadAdminSlides();
-            // Enviar notificação se ativado
-            if (localStorage.getItem('notificationsEnabled') === 'true' && Notification.permission === 'granted') {
-                sendNotification('Novo slide publicado!', `"${title}" agora disponível!");
-                trackEvent('notification_sent');
-            }
-            clearForm();
-            alert('Slide salvo!');
-        });
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
 
-        function addTextItem() {
-            const div = document.createElement('div');
-            div.dataset.type = 'text';
-            div.innerHTML = `
-                <label>Texto:</label>
-                <textarea rows="3" placeholder="Digite o texto aqui..."></textarea>
-                <button type="button" class="btn btn-danger" onclick="this.parentNode.remove()" style="position:absolute;top:5px;right:5px;">Remover</button>
-            `;
-            document.getElementById('content-items').appendChild(div);
-        }
+document.addEventListener('keydown', function(e) {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
 
-        function addImageItem() {
-            const div = document.createElement('div');
-            div.dataset.type = 'image';
-            div.innerHTML = `
-                <label>Imagem:</label>
-                <input type="file" accept="image/*" onchange="loadImage(this)">
-                <img class="preview" style="display:none;">
-                <button type="button" class="btn btn-danger" onclick="this.parentNode.remove()" style="position:absolute;top:5px;right:5px;">Remover</button>
-            `;
-            document.getElementById('content-items').appendChild(div);
-        }
+// ────────────────────────────────────────────────
+// VISITOR COUNTER (localStorage simulation)
+// ────────────────────────────────────────────────
+function formatNum(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+  return n.toString();
+}
 
-        function loadImage(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = input.parentNode.querySelector('img');
-                    img.src = e.target.result;
-                    img.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+function initCounter() {
+  // Visitors
+  let visitors = parseInt(localStorage.getItem('ebd_visitors') || '10247830');
+  let views = parseInt(localStorage.getItem('ebd_views') || '0');
 
-        function clearForm() {
-            document.getElementById('admin-form').reset();
-            document.getElementById('edit-id').value = '';
-            document.getElementById('content-items').innerHTML = '';
-        }
+  // Increment views on every page load
+  views += 1;
+  localStorage.setItem('ebd_views', views);
 
-        function editSlide(id) {
-            const slide = slides.find(s => s.id === id);
-            if (!slide) return;
-            document.getElementById('edit-id').value = slide.id;
-            document.getElementById('slide-title').value = slide.title;
-            const container = document.getElementById('content-items');
-            container.innerHTML = '';
-            slide.content.forEach(item => {
-                if (item.type === 'text') {
-                    addTextItem();
-                    container.lastChild.querySelector('textarea').value = item.value;
-                } else {
-                    addImageItem();
-                    const input = container.lastChild.querySelector('input');
-                    const img = container.lastChild.querySelector('img');
-                    img.src = item.value;
-                    img.style.display = 'block';
-                    // Simular load
-                    input.value = '';
-                }
-            });
-        }
+  // Increment visitors once per session
+  if (!sessionStorage.getItem('ebd_session')) {
+    visitors += 1;
+    localStorage.setItem('ebd_visitors', visitors);
+    sessionStorage.setItem('ebd_session', '1');
+  }
 
-        function deleteSlide(id) {
-            if (confirm('Confirmar exclusão?')) {
-                slides = slides.filter(s => s.id !== id);
-                saveSlides();
-                loadSlides();
-                loadAdminSlides();
-            }
-        }
+  document.getElementById('vc-visitors').textContent = formatNum(visitors);
+  document.getElementById('vc-views').textContent = formatNum(views);
+  document.getElementById('vc-online-num').textContent = Math.floor(Math.random() * 8) + 1;
+}
 
-        function loadAdminSlides() {
-            const container = document.getElementById('admin-slides');
-            container.innerHTML = '';
-            slides.forEach(slide => {
-                const div = document.createElement('div');
-                div.className = 'slide-card';
-                div.innerHTML = `
-                    <h4>${slide.title}</h4>
-                    <p>${slide.views} views - ${slide.date}</p>
-                    <button class="btn" onclick="editSlide(${slide.id})">Editar</button>
-                    <button class="btn btn-danger" onclick="deleteSlide(${slide.id})">Deletar</button>
-                `;
-                container.appendChild(div);
-            });
-        }
+initCounter();
 
-        // =======================================
-        // SISTEMA DE NOTIFICAÇÕES (Web Push API + Service Worker)
-        // =======================================
-        async function initServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                try {
-                    const response = await navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                        const CACHE_NAME = 'edo-v1';
-                        self.addEventListener('install', e => {
-                            e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([])));
-                        });
-                        self.addEventListener('fetch', e => {
-                            e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-                        });
-                        self.addEventListener('notificationclick', event => {
-                            event.notification.close();
-                            event.waitUntil(clients.openWindow(self.location.origin));
-                        });
-                    `], {type: 'application/javascript'})));
-                    swRegistration = response;
-                } catch (err) {
-                    console.error('SW registration failed:', err);
-                }
-            }
-        }
+// ────────────────────────────────────────────────
+// PUSH NOTIFICATIONS
+// ────────────────────────────────────────────────
+function showNotifBar() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') return;
+  if (localStorage.getItem('ebd_notif_dismissed')) return;
+  setTimeout(() => {
+    document.getElementById('notif-bar').style.display = 'block';
+  }, 3000);
+}
 
-        function initNotifications() {
-            if (Notification.permission === 'default') {
-                // Não pedir auto
-            }
-            updateNotificationBadge();
-        }
+function requestNotifPermission() {
+  if (!('Notification' in window)) {
+    alert('Seu navegador não suporta notificações. Tente em Chrome ou Firefox.');
+    return;
+  }
+  Notification.requestPermission().then(function(permission) {
+    if (permission === 'granted') {
+      dismissNotifBar();
+      localStorage.setItem('ebd_notif_granted', '1');
+      new Notification('✝ Escola Dominical Online', {
+        body: 'Você receberá avisos quando novos slides forem publicados!',
+        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect fill="%230d1f3c" width="32" height="32" rx="6"/><text x="16" y="22" text-anchor="middle" fill="%23c9a84c" font-size="18">✝</text></svg>'
+      });
+      // GA
+      if (typeof gtag !== 'undefined') gtag('event', 'notification_subscribed');
+    } else {
+      dismissNotifBar();
+    }
+  });
+}
 
-        function toggleNotifications() {
-            requestNotificationPermission();
-        }
+function dismissNotifBar() {
+  document.getElementById('notif-bar').style.display = 'none';
+  localStorage.setItem('ebd_notif_dismissed', '1');
+}
 
-        function requestNotificationPermission() {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        localStorage.setItem('notificationsEnabled', 'true');
-                        updateNotificationBadge();
-                        trackEvent('notification_subscribe');
-                        alert('Notificações ativadas! Você receberá alertas de novos slides.');
-                    }
-                });
-            }
-        }
+showNotifBar();
 
-        async function sendNotification(title, body) {
-            if (swRegistration) {
-                try {
-                    await swRegistration.showNotification(title, {
-                        body,
-                        icon: NOTIF_ICON,
-                        badge: NOTIF_ICON,
-                        tag: 'new-slide'
-                    });
-                } catch (err) {
-                    console.error('Notification failed:', err);
-                }
-            } else {
-                new Notification(title, {body, icon: NOTIF_ICON});
-            }
-        }
-
-        function updateNotificationBadge() {
-            const enabled = localStorage.getItem('notificationsEnabled') === 'true' && Notification.permission === 'granted';
-            const badge = document.getElementById('notif-badge');
-            if (enabled) {
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-    </script>
+// ────────────────────────────────────────────────
+// GA — scroll depth & interaction tracking
+// ────────────────────────────────────────────────
+if (typeof gtag !== 'undefined') {
+  let scrollMarks = { 25: false, 50: false, 75: false, 90: false };
+  window.addEventListener('scroll', function() {
+    const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    Object.keys(scrollMarks).forEach(mark => {
+      if (!scrollMarks[mark] && pct >= mark) {
+        scrollMarks[mark] = true;
+        gtag('event', 'scroll_depth', { depth_percent: parseInt(mark) });
+      }
+    });
+  });
+}
+</script>
 </body>
 </html>
