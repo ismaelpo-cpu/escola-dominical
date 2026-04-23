@@ -822,7 +822,7 @@
     <p class="lightbox-slide-ref-tag" id="lb-ref">Gênesis 1:1</p>
     <h2 class="lightbox-slide-main" id="lb-main">Título da Lição</h2>
     <p class="lightbox-slide-verse" id="lb-verse">Referência bíblica</p>
-  </div>
+  <iframe id="lb-pdf" src="" style="width:100%; height:500px; border:none; display:none; margin-top:1rem;"></iframe></div>
   <div class="lightbox-nav">
     <button class="lightbox-nav-btn" id="lb-prev" onclick="lbNav(-1)">← Anterior</button>
     <span class="lightbox-counter" id="lb-counter">1 / 8</span>
@@ -1150,6 +1150,14 @@ function updateLightbox() {
   const dlBtn = document.getElementById('lb-download');
   if (s.file) {
     dlBtn.href = s.file;
+    const pdfFrame = document.getElementById('lb-pdf');
+if (s.file) {
+  pdfFrame.src = s.file;
+  pdfFrame.style.display = 'block';
+} else {
+  pdfFrame.src = '';
+  pdfFrame.style.display = 'none';
+}
     dlBtn.style.opacity = '1';
     dlBtn.style.pointerEvents = 'auto';
   } else {
