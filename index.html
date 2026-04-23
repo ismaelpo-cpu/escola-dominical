@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Dominical Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-screen flex flex-col text-white">
+
+    <!-- Header -->
+    <header class="bg-blue-800/50 backdrop-blur-md py-8 text-center shrink-0">
+        <img src="Logo-da-EBD-alto-relevo.png" alt="Logo EBD" class="w-32 md:w-48 mx-auto mb-4 rounded-lg shadow-2xl">
+        <h1 class="text-3xl md:text-5xl font-bold text-yellow-400 drop-shadow-lg">Escola Dominical Online</h1>
+        <p class="text-xl mt-2 opacity-90">Plataforma Dinâmica para Lições</p>
+    </header>
+
+    <!-- Add Lesson Form -->
+    <section class="p-6 max-w-4xl mx-auto">
+        <form id="addForm" class="bg-white/10 backdrop-blur-md rounded-xl p-6 mb-8 border border-yellow-500/30">
+            <!-- Form content set by JS -->
+        </form>
+    </section>
+
+    <!-- Lessons Grid -->
+    <main id="lessonsGrid" class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
+        <!-- Cards populated by JS -->
+    </main>
+
+    <!-- Full Screen Modal -->
+    <div id="modal" class="hidden fixed inset-0 z-50 bg-black flex items-center justify-center p-4">
+        <div class="w-full h-full max-w-none max-h-none relative">
+            <iframe id="slideFrame" class="w-full h-full border-0" allowfullscreen allow="fullscreen"></iframe>
+            <button id="closeModal" class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl text-lg font-bold shadow-lg z-10 transition-all">✕ Fechar</button>
+        </div>
+    </div>
+
+    <!-- Footer Stats -->
+    <footer class="bg-blue-800/70 backdrop-blur-md py-8 shrink-0">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="text-2xl md:text-3xl font-bold text-yellow-400 mb-6 drop-shadow-lg">Estatísticas</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg md:text-xl">
+                <div>👥 Visitantes Online: <span id="onlineCount" class="font-bold text-yellow-400">0</span></div>
+                <div>📊 Total de Acessos: <span id="totalCount" class="font-bold text-yellow-400">0</span></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let lessons = [
+            {
+                title: "Lição 1 - Introdução à Fé",
+                pdf: "https://example.com/licao1.pdf",
+                ppt: "https://example.com/licao1.ppt",
+                slide: "https://docs.google.com/presentation/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit"
+            },
+            {
+                title: "Lição 2 - Os Mandamentos",
+                pdf: "https://example.com/licao2.pdf",
+                ppt: "https://example.com/licao2.ppt",
+                slide: "https://docs.google.com/presentation/d/1c_t9O3lHW4WLVaPqK5vH2J7z8K9L0M1N2O3P4Q5R6S7T8U9V0W/edit"
+            }
+            // Adicione mais lições editando este array ou usando o formulário
+        ];
+
+        function renderLessons() {
+            const grid = document.getElementById('lessonsGrid');
+            grid.innerHTML = lessons.map((lesson, idx) => `
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl hover:shadow-yellow-500/50 transition-all duration-500 border-2 border-yellow-500/30 hover:border-yellow-400/60 hover:scale-105">
+                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-400 mb-8 text-center drop-shadow-lg">${lesson.title}</h3>
+                    <div class="space-y-4">
+                        <a href="${lesson.pdf}" target="_blank" download class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-xl text-center text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">📄 Baixar PDF</a>
+                        <a href="${lesson.ppt}" target="_blank" download class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-xl text-center text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">📊 Baixar PPT</a>
+                        <button onclick="openModal(${idx})" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-blue-900 font-bold py-4 px-6 rounded-xl text-xl transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-2">🎥 Modo Aula (Tela Cheia)</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function extractGoogleId(url) {
+            const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            return match ? match[1] : null;
+        }
+
+        function openModal(idx) {
+            const lesson = lessons[idx];
+            const id = extractGoogleId(lesson.slide);
+            if (!id) {
+                alert('Link do slide inválido! Certifique-se de que é um link do Google Drive compartilhado.');
+                return;
+            }
+            const embedUrl = `https://docs.google.com/presentation/d/${id}/embed?rm=minimal&start=false&loop=false&delayms=3000`;
+            document.getElementById('slideFrame').src = embedUrl;
+            document.getElementById('modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Modal controls
+        document.getElementById('closeModal').onclick = () => {
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('slideFrame').src = '';
+            document.body.style.overflow = '';
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('closeModal').click();
+            }
+        });
+
+        // Add form setup
+        const form = document.getElementById('addForm');
+        form.innerHTML = `
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-yellow-400 text-center drop-shadow-lg">➕ Adicionar Nova Lição</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="title" placeholder="Título da Lição" class="bg-white/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-xl px-6 py-4 text-white placeholder-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 focus:border-yellow-400 w-full text-lg shadow-lg">
+                <input type="url" id="pdf" placeholder="Link do PDF" class="bg-white/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-xl px-6 py-4 text-white placeholder-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 focus:border-yellow-400 w-full text-lg shadow-lg">
+                <input type="url" id="ppt" placeholder="Link do PPT" class="bg-white/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-xl px-6 py-4 text-white placeholder-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 focus:border-yellow-400 w-full text-lg shadow-lg">
+                <input type="url" id="slide" placeholder="Link do Slide (Google Drive)" class="bg-white/20 backdrop-blur-md border-2 border-yellow-500/50 rounded-xl px-6 py-4 text-white placeholder-yellow-200 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 focus:border-yellow-400 w-full text-lg shadow-lg">
+            </div>
+            <button type="submit" class="mt-8 w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-blue-900 font-bold py-5 px-8 rounded-xl text-xl transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-1">Adicionar Lição</button>
+        `;
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const pdf = document.getElementById('pdf').value;
+            const ppt = document.getElementById('ppt').value;
+            const slide = document.getElementById('slide').value;
+            if (!title || !pdf || !ppt || !slide) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            lessons.push({ title, pdf, ppt, slide });
+            renderLessons();
+            form.reset();
+        };
+
+        // Statistics
+        let totalAccesses = localStorage.getItem('totalAccesses') || '0';
+        totalAccesses = (parseInt(totalAccesses) + 1).toString();
+        localStorage.setItem('totalAccesses', totalAccesses);
+        document.getElementById('totalCount').textContent = totalAccesses.toLocaleString();
+
+        function updateOnlineVisitors() {
+            const count = Math.floor(Math.random() * 20) + 3;
+            document.getElementById('onlineCount').textContent = count;
+        }
+
+        setInterval(updateOnlineVisitors, 4000);
+        updateOnlineVisitors();
+
+        // Initial render
+        renderLessons();
+    </script>
+
+</body>
+</html>
