@@ -1,2 +1,2 @@
 # escola-dominical
-Educação cristâ, Escola Bíblica Dominical, Ensino Cristão, Professores e Alunos da EBD, Material Didático, Mestres da EBD
+Escola Bíblica Dominical Online: Elevando o nível do ensino cristão com o melhor material didático para os mestres da EBD.
